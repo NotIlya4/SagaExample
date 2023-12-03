@@ -4,7 +4,7 @@ namespace KitchenService.Domain;
 
 public class BusyHoursProvider(ISystemClock clock)
 {
-    private const float MorningCoef = 1f;
+    private const float MorningCoef = 1.1f;
     private const float DayCoef = 2f;
     private const float NightCoef = 0.8f;
 

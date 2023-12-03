@@ -6,7 +6,7 @@ public class CreateTicketRequest
     public DateTime FinishTime { get; private set; }
     public int Dishes { get; private set; }
 
-    protected CreateTicketRequest()
+    public CreateTicketRequest()
     {
         InternalId = null!;
     }

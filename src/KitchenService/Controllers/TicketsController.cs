@@ -17,7 +17,7 @@ public class TicketsController(IDbContextFactory<AppDbContext> dbContextFactory,
         return tickets;
     }
 
-    [HttpGet]
+    [HttpGet("internalId/{internalId}")]
     public async Task<ActionResult<Ticket>> GetTicket(string internalId)
     {
         var ticket = await dbContextFactory.WithRetry(async context =>

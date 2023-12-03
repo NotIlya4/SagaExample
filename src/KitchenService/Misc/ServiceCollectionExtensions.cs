@@ -20,7 +20,15 @@ public static class ServiceCollectionExtensions
 
     public static string GetConn(this IConfiguration config, string section = "ConnectionString")
     {
-        return config.GetValue<NpgsqlConnectionStringBuilder>(section)!.ConnectionString;
+        var builder = new NpgsqlConnectionStringBuilder();
+
+        var values = config.GetSection(section).GetChildren();
+        foreach (var value in values)
+        {
+            builder[value.Key] = value.Value;
+        }
+
+        return builder.ConnectionString;
     }
 
     public static IServiceCollection AddAppServices(this IServiceCollection services)
