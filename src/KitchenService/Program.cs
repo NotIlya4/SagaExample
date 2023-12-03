@@ -1,10 +1,10 @@
-using KitchenService.EntityFramework;
-using Microsoft.EntityFrameworkCore;
+using KitchenService.Misc;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+var config = builder.Configuration;
 
-
+services.AddAppDbContext(config.GetConn());
 
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
