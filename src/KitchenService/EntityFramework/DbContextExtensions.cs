@@ -47,4 +47,9 @@ public static class DbContextExtensions
     {
         return query.Skip((page - 1) * limit).Take(limit);
     }
+    
+    public static IQueryable<TReturn> ApplyPagination<TReturn>(this IQueryable<TReturn> query, Pagination pagination)
+    {
+        return query.ApplyPagination(pagination.Page, pagination.Limit);
+    }
 }

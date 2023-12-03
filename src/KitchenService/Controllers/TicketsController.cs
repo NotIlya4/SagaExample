@@ -9,10 +9,10 @@ namespace KitchenService.Controllers;
 public class TicketsController(IDbContextFactory<AppDbContext> dbContextFactory, TicketServiceFactory ticketServiceFactory) : Controller
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets(GetTicketsRequest request)
+    public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets(Pagination request)
     {
         var tickets = await dbContextFactory.WithRetry(async context =>
-            await context.Tickets.ApplyPagination(request.Page, request.Limit).ToListAsync());
+            await context.Tickets.ApplyPagination(request).ToListAsync());
         
         return tickets;
     }
