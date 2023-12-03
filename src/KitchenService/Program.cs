@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var config = builder.Configuration;
 
+services.AddAppServices();
 services.AddAppDbContext(config.GetConn());
 
 services.AddEndpointsApiExplorer();
