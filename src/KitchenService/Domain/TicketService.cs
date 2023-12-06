@@ -3,7 +3,7 @@ using KitchenService.Misc;
 
 namespace KitchenService.Domain;
 
-public class TicketService(AppDbContext context, TicketEstimater estimater, TicketFactory factory)
+public class TicketService(KitchenDbContext context, TicketEstimater estimater, TicketFactory factory)
 {
     public async Task<Ticket> CreateTicket(CreateTicketRequest request)
     {

@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KitchenService.EntityFramework;
 
-public class AppDbContext : DbContext
+public class KitchenDbContext : DbContext
 {
     public DbSet<Ticket> Tickets { get; set; } = null!;
     
-    public AppDbContext(DbContextOptions options) : base(options)
+    public KitchenDbContext(DbContextOptions options) : base(options)
     {
         
     }

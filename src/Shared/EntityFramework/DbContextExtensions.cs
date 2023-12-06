@@ -1,14 +1,14 @@
 ﻿using System.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace KitchenService.EntityFramework;
+namespace Shared.EntityFramework;
 
 public static class DbContextExtensions
 {
-    public static async Task<TReturn> WithRetry<TReturn>(
-        this IDbContextFactory<AppDbContext> factory, 
-        Func<AppDbContext, Task<TReturn>> func,
-        IsolationLevel isolationLevel)
+    public static async Task<TReturn> WithRetry<TDbContext, TReturn>(
+        this IDbContextFactory<TDbContext> factory, 
+        Func<TDbContext, Task<TReturn>> func,
+        IsolationLevel isolationLevel) where TDbContext : DbContext
     {
         var context = await factory.CreateDbContextAsync();
         var strategy = context.Database.CreateExecutionStrategy();
@@ -26,9 +26,9 @@ public static class DbContextExtensions
         });
     }
     
-    public static async Task<TReturn> WithRetry<TReturn>(
-        this IDbContextFactory<AppDbContext> factory, 
-        Func<AppDbContext, Task<TReturn>> func)
+    public static async Task<TReturn> WithRetry<TDbContext, TReturn>(
+        this IDbContextFactory<TDbContext> factory, 
+        Func<TDbContext, Task<TReturn>> func) where TDbContext : DbContext
     {
         var context = await factory.CreateDbContextAsync();
         var strategy = context.Database.CreateExecutionStrategy();

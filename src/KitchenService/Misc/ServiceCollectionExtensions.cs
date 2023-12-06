@@ -8,9 +8,9 @@ namespace KitchenService.Misc;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAppDbContext(this IServiceCollection services, string conn)
+    public static IServiceCollection AddKitchenDbContext(this IServiceCollection services, string conn)
     {
-        services.AddDbContextFactory<AppDbContext>(optionsBuilder =>
+        services.AddDbContextFactory<KitchenDbContext>(optionsBuilder =>
         {
             optionsBuilder.UseNpgsql(conn, builder => builder.EnableRetryOnFailure());
         });
@@ -18,20 +18,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static string GetConn(this IConfiguration config, string section = "ConnectionString")
-    {
-        var builder = new NpgsqlConnectionStringBuilder();
-
-        var values = config.GetSection(section).GetChildren();
-        foreach (var value in values)
-        {
-            builder[value.Key] = value.Value;
-        }
-
-        return builder.ConnectionString;
-    }
-
-    public static IServiceCollection AddAppServices(this IServiceCollection services)
+    public static IServiceCollection AddKitchenServices(this IServiceCollection services)
     {
         services.AddSingleton<ISystemClock, SystemClock>();
         services.AddSingleton<TicketFactory>();

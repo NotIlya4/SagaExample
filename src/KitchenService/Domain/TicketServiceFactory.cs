@@ -5,7 +5,7 @@ namespace KitchenService.Domain;
 
 public class TicketServiceFactory(IServiceProvider serviceProvider)
 {
-    public TicketService Create(AppDbContext context)
+    public TicketService Create(KitchenDbContext context)
     {
         return new TicketService(context, serviceProvider.GetRequiredService<TicketEstimater>(),
             serviceProvider.GetRequiredService<TicketFactory>());

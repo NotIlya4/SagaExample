@@ -2,11 +2,12 @@
 using KitchenService.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Shared.EntityFramework;
 
 namespace KitchenService.Controllers;
 
 [Route("tickets")]
-public class TicketsController(IDbContextFactory<AppDbContext> dbContextFactory, TicketServiceFactory ticketServiceFactory) : Controller
+public class TicketsController(IDbContextFactory<KitchenDbContext> dbContextFactory, TicketServiceFactory ticketServiceFactory) : Controller
 {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets(Pagination request)

@@ -1,4 +1,4 @@
-﻿namespace KitchenService.EntityFramework;
+﻿namespace Shared.EntityFramework;
 
 public class Pagination
 {

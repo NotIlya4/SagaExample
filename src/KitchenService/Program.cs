@@ -1,11 +1,12 @@
 using KitchenService.Misc;
+using Shared.Misc;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var config = builder.Configuration;
 
-services.AddAppServices();
-services.AddAppDbContext(config.GetConn());
+services.AddKitchenServices();
+services.AddKitchenDbContext(config.GetPostgresConn());
 
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
