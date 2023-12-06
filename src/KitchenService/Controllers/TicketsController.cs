@@ -7,7 +7,7 @@ using Shared.EntityFramework;
 namespace KitchenService.Controllers;
 
 [Route("tickets")]
-public class TicketsController(IDbContextFactory<KitchenDbContext> dbContextFactory, TicketServiceFactory ticketServiceFactory) : Controller
+public class TicketsController(IDbContextFactory<KitchenDbContext> dbContextFactory, ITicketFactory ticketFactory) : Controller
 {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets(Pagination request)
@@ -28,13 +28,16 @@ public class TicketsController(IDbContextFactory<KitchenDbContext> dbContextFact
     }
 
     [HttpPost]
-    public async Task<ActionResult<Ticket>> CreateTicket(CreateTicketRequest request)
+    public async Task<ActionResult<Ticket>> CreateTicket([FromBody] CreateTicketRequestView request)
     {
         var ticket = await dbContextFactory.WithRetry(async context =>
         {
-            var ticketService = ticketServiceFactory.Create(context);
+            var ticket = await ticketFactory.CreateNewTicket(request.ToRequest());
 
-            return await ticketService.CreateTicket(request);
+            context.Tickets.Add(ticket);
+            await context.SaveChangesAsync();
+
+            return ticket;
         });
 
         return ticket;

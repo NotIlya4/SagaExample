@@ -1,5 +1,6 @@
 ﻿using KitchenService.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KitchenService.EntityFramework;
 
@@ -14,6 +15,12 @@ public class KitchenDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        ConfigureTicket(modelBuilder.Entity<Ticket>());
+    }
+
+    private void ConfigureTicket(EntityTypeBuilder<Ticket> builder)
+    {
+        builder.Property(t => t.InternalId).HasMaxLength(128);
+        builder.HasIndex(t => t.InternalId).IsUnique();
     }
 }

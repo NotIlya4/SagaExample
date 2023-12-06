@@ -2,10 +2,25 @@
 
 namespace KitchenService.Domain;
 
-public class TicketFactory(ISystemClock clock)
+public class TicketFactory(ITicketEstimater estimater, ISystemClock clock) : ITicketFactory
 {
-    public Ticket CreateNew(string internalId, DateTime finishTime, int dishes)
+    private static TicketValidator _ticketValidator = new();
+    
+    public async Task<Ticket> CreateNewTicket(CreateTicketRequest request)
     {
-        return new Ticket(0, internalId, TicketState.ApprovalPending, clock.UtcNow.UtcDateTime, finishTime, dishes);
+        var estimate = await estimater.EstimateFinishTime(request.Dishes);
+
+        var ticket = new Ticket(
+            0,
+            request.InternalId,
+            TicketState.ApprovalPending,
+            clock.UtcNow.UtcDateTime,
+            request.FinishTime,
+            estimate,
+            request.Dishes);
+
+        _ticketValidator.Validate(ticket);
+
+        return ticket;
     }
 }

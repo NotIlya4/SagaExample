@@ -1,24 +1,14 @@
-﻿using Microsoft.Extensions.Internal;
+﻿using KitchenService.Misc;
+using Microsoft.Extensions.Internal;
 
 namespace KitchenService.Domain;
 
-public class TicketEstimater(BusyHoursProvider busyHoursProvider, ISystemClock clock)
+public class TicketEstimater(IBusyHoursProvider busyHoursProvider, ISystemClock clock) : ITicketEstimater
 {
-    public bool CanTicketBeServedInTime(Ticket ticket)
+    public async Task<DateTime> EstimateFinishTime(int dishes)
     {
-        return CanTicketBeServedInTime(ticket.Dishes, ticket.FinishTime);
-    } 
-    
-    public bool CanTicketBeServedInTime(int dishes, DateTime finishTime)
-    {
-        var estimate = EstimateFinishTime(dishes);
-
-        return estimate <= finishTime;
-    }
-
-    public DateTime EstimateFinishTime(int dishes)
-    {
-        TimeSpan ticketWouldTake = dishes * busyHoursProvider.GetCurrentTimeCoefficient() * TimeSpan.FromHours(1);
+        var hourCoefficient = await busyHoursProvider.GetCurrentTimeCoefficient();
+        TimeSpan ticketWouldTake = dishes * hourCoefficient * TimeSpan.FromHours(1);
 
         return clock.UtcNow.UtcDateTime + ticketWouldTake;
     }

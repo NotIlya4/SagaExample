@@ -12,9 +12,9 @@ public class ExceptionThrower
     }
     
     [DoesNotReturn]
-    public static void TicketCannotBePreparedInTime(Ticket ticket, DateTime requestTime, DateTime estimateTime)
+    public static void TicketCannotBePreparedInTime(string ticketInternalId, DateTime requestTime, DateTime estimateTime)
     {
         throw new InvalidOperationException(
-            $"Ticket ${ticket.InternalId} can't be prepared at {requestTime}, it will be ready only at {estimateTime}");
+            $"Ticket ${ticketInternalId} can't be prepared at {requestTime}, it will be ready only at {estimateTime}");
     }
 }

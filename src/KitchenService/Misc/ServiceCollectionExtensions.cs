@@ -21,11 +21,10 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddKitchenServices(this IServiceCollection services)
     {
         services.AddSingleton<ISystemClock, SystemClock>();
-        services.AddSingleton<TicketFactory>();
-        services.AddSingleton<TicketServiceFactory>();
 
-        services.AddScoped<TicketEstimater>();
-        services.AddScoped<BusyHoursProvider>();
+        services.AddScoped<ITicketFactory, TicketFactory>();
+        services.AddScoped<ITicketEstimater, TicketEstimater>();
+        services.AddScoped<IBusyHoursProvider, BusyHoursProvider>();
 
         return services;
     }

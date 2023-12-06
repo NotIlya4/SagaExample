@@ -2,27 +2,29 @@
 
 namespace KitchenService.Domain;
 
-public class Ticket
+public record Ticket
 {
     public int Id { get; private set; }
     public string InternalId { get; private set; }
     public TicketState State { get; private set; }
     public DateTime CreationDate { get; private set; }
-    public DateTime FinishTime { get; set; }
-    public int Dishes { get; set; }
+    public DateTime RequestTime { get; private set; }
+    public DateTime EstimateTime { get; private set; }
+    public int Dishes { get; private set; }
 
     protected Ticket()
     {
         InternalId = null!;
     }
 
-    public Ticket(int id, string internalId, TicketState state, DateTime creationDate, DateTime finishTime, int dishes)
+    public Ticket(int id, string internalId, TicketState state, DateTime creationDate, DateTime requestTime, DateTime estimateTime, int dishes)
     {
         Id = id;
         InternalId = internalId;
         State = state;
         CreationDate = creationDate;
-        FinishTime = finishTime;
+        RequestTime = requestTime;
+        EstimateTime = estimateTime;
         Dishes = dishes;
     }
 
@@ -33,14 +35,9 @@ public class Ticket
             ExceptionThrower.ApproveCanceledTicket(InternalId);
         }
 
-        State = TicketState.Approved;
+        if (State == TicketState.ApprovalPending)
+        {
+            State = TicketState.Approved;
+        }
     }
-}
-
-public enum TicketState
-{
-    ApprovalPending,
-    Approved,
-    Canceled,
-    Finished
 }
