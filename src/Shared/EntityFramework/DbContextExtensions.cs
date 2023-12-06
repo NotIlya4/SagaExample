@@ -42,6 +42,17 @@ public static class DbContextExtensions
             return result;
         });
     }
+    
+    public static Task WithRetry<TDbContext>(
+        this IDbContextFactory<TDbContext> factory, 
+        Func<TDbContext, Task> func) where TDbContext : DbContext
+    {
+        return factory.WithRetry(async (context) =>
+        {
+            await func(context);
+            return true;
+        });
+    }
 
     public static IQueryable<TReturn> ApplyPagination<TReturn>(this IQueryable<TReturn> query, int page, int limit)
     {

@@ -6,8 +6,6 @@ public class TicketValidator : AbstractValidator<Ticket>
 {
     public TicketValidator()
     {
-        RuleFor(t => t.InternalId).MaximumLength(128);
-        
         RuleFor(t => t.RequestTime).Must((t, e) => e >= t.EstimateTime)
             .WithMessage("Request time must be less than estimate");
 

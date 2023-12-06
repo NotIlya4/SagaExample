@@ -17,4 +17,10 @@ public class ExceptionThrower
         throw new InvalidOperationException(
             $"Ticket ${ticketInternalId} can't be prepared at {requestTime}, it will be ready only at {estimateTime}");
     }
+    
+    [DoesNotReturn]
+    public static void TicketWithInternalIdNotFound(InternalId ticketInternalId)
+    {
+        throw new InvalidOperationException($"Ticket with internal id ${ticketInternalId} not found");
+    }
 }

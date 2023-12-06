@@ -2,7 +2,7 @@
 
 public class CreateTicketRequest
 {
-    public string InternalId { get; private set; }
+    public InternalId InternalId { get; private set; }
     public DateTime FinishTime { get; private set; }
     public int Dishes { get; private set; }
 

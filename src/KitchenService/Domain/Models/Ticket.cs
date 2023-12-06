@@ -5,7 +5,7 @@ namespace KitchenService.Domain;
 public record Ticket
 {
     public int Id { get; private set; }
-    public string InternalId { get; private set; }
+    public InternalId InternalId { get; private set; }
     public TicketState State { get; private set; }
     public DateTime CreationDate { get; private set; }
     public DateTime RequestTime { get; private set; }
@@ -17,7 +17,7 @@ public record Ticket
         InternalId = null!;
     }
 
-    public Ticket(int id, string internalId, TicketState state, DateTime creationDate, DateTime requestTime, DateTime estimateTime, int dishes)
+    public Ticket(int id, InternalId internalId, TicketState state, DateTime creationDate, DateTime requestTime, DateTime estimateTime, int dishes)
     {
         Id = id;
         InternalId = internalId;
